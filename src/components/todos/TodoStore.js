@@ -8,6 +8,10 @@ const state = {
       name: "Apprendre Typescript",
       completed: true,
     },
+    {
+      name: "Apprendre Docker",
+      completed: true,
+    },
   ],
 };
 const mutations = {
@@ -19,6 +23,9 @@ const mutations = {
 const getters = {
   todos: (state) => state.todos,
   completedTodos: (state) => state.todos.filter((todo) => todo.completed),
+  noCompletedTodos: (state) => state.todos.filter((todo) => !todo.completed),
+  done: (state) => getters.completedTodos(state).length,
+  undone: (state) => getters.noCompletedTodos(state).length,
 };
 
 const store = new Vuex.Store({
@@ -29,6 +36,8 @@ const store = new Vuex.Store({
   //   Créer des methodes qui vont permettre de recuperer une information au niveau de notre state
   getters,
   actions: {},
+  //   Nous empeche de muter les choses et donc on faira des modifications uniquement sur les copies du state sans toucher au vrais state
+  strict: true,
 });
 global.store = store;
 export default store;

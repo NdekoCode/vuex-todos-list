@@ -98,7 +98,9 @@
 
 <script>
 import Vue from "vue";
+import Vuex from "vuex";
 import store from "./TodoStore";
+global.v = Vuex;
 export default {
   name: "Todos",
   store,
@@ -108,12 +110,6 @@ export default {
       editing: null,
       newTodo: "",
       filter: "all", // Done, todo,all
-      todos: [
-        {
-          name: "Apprendre Typescript",
-          completed: true,
-        },
-      ],
     };
   },
   directives: {
@@ -159,6 +155,7 @@ export default {
     },
   },
   computed: {
+    ...Vuex.mapGetters(["todos", "undone", "done"]),
     hasTodos() {
       return this.todos.length > 0;
     },
@@ -172,12 +169,6 @@ export default {
       get() {
         return this.undone === 0;
       },
-    },
-    undone() {
-      return this.todos.filter((todo) => !todo.completed).length;
-    },
-    done() {
-      return this.todos.filter((todo) => todo.completed).length;
     },
     filteredTodos() {
       if (this.filter === "done") {
