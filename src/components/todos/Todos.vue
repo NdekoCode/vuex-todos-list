@@ -1,7 +1,7 @@
 <template>
   <section class="todoapp">
     <header>
-      <form class="header" @submit.prevent="addTodo">
+      <form class="header" @submit.prevent="addNewTodo">
         <h1 class="">Todos</h1>
         <input
           v-model="newTodo"
@@ -125,6 +125,13 @@ export default {
     },
   },
   methods: {
+    ...Vuex.mapActions([
+      "addTodo",
+    ]) /* On aurai pus aussi l'appeler sous forme d'object ...Vuex.mapActions({addNewTodo:"addTodo"}) puis dans notre composant créer une autre fonction qui sera "addTodo" et qui va maintenant appeler "addNewTodo" et vider this.newTodo*/,
+    addNewTodo() {
+      this.addTodo(this.newTodo);
+      this.newTodo = "";
+    },
     editTodo(todo) {
       this.editing = todo;
       this.oldTodo = todo.name;
@@ -138,14 +145,6 @@ export default {
     },
     doneEdit() {
       this.editing = null;
-    },
-    addTodo() {
-      if (this.newTodo.length > 2) {
-        this.todos = [{ name: this.newTodo, completed: false }, ...this.todos];
-        this.newTodo = "";
-      } else {
-        alert("Entrer une tache correcte");
-      }
     },
     removeTodo(todo) {
       this.todos = this.todos.filter((d) => d.name !== todo.name);
