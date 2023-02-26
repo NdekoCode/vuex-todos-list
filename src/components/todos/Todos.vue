@@ -155,7 +155,13 @@ export default {
     },
   },
   computed: {
-    ...Vuex.mapGetters(["todos", "undone", "done"]),
+    ...Vuex.mapGetters([
+      "todos",
+      "undone",
+      "done",
+      "completedTodos",
+      "noCompletedTodos",
+    ]),
     hasTodos() {
       return this.todos.length > 0;
     },
@@ -172,9 +178,11 @@ export default {
     },
     filteredTodos() {
       if (this.filter === "done") {
-        return this.todos.filter((todo) => todo.completed);
+        // Sans lui passer de paramètre vuex va se charger de cela
+        return this.completedTodos;
       } else if (this.filter === "todo") {
-        return this.todos.filter((todo) => !todo.completed);
+        // Sans lui passer de paramètre vuex va se charger de cela
+        return this.noCompletedTodos;
       }
       return this.todos;
     },
