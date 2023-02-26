@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -6,10 +7,12 @@ Vue.use(Vuex);
 const state = {
   todos: [
     {
+      id: uuid(),
       name: "Apprendre Typescript",
       completed: true,
     },
     {
+      id: uuid(),
       name: "Apprendre Docker",
       completed: true,
     },
@@ -32,8 +35,14 @@ const actions = {
     store.commit("DELETE_COMPLETED");
   },
   toggleTodo: (store, todo) => {
-    console.log(todo.name);
     store.commit("TOGGLE_TODO", todo);
+  },
+  editTodo: (store, todo) => {
+    if (todo.name.length >= 2) {
+      store.commit("EDIT_TODO", todo);
+    } else {
+      alert("Entrer une tache correcte");
+    }
   },
 };
 
@@ -48,7 +57,11 @@ const getters = {
 /** Son des fonctions qui vont permettre de muter ou de modifier notre Etat, faire des changement au niveau de notre state */
 const mutations = {
   ADD_TODO: (state, nameOfTodo) => {
-    state.todos.push({ name: nameOfTodo, completed: false });
+    state.todos.push({
+      id: uuid(),
+      name: nameOfTodo,
+      completed: false,
+    });
   },
   DELETE_TODO: (state, todo) => {
     state.todos = state.todos.filter((d) => d.name !== todo.name);
@@ -58,8 +71,16 @@ const mutations = {
   },
   TOGGLE_TODO: (state, todo) => {
     state.todos = state.todos.map((d) => {
-      if (d.name === todo.name) {
+      if (d.id === todo.id) {
         d.completed = !d.completed;
+      }
+      return d;
+    });
+  },
+  EDIT_TODO: (state, todo) => {
+    state.todos = state.todos.map((d) => {
+      if (d.id === todo.id) {
+        d.name = todo.name;
       }
       return d;
     });

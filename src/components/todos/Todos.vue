@@ -24,18 +24,18 @@
         <li
           class="todo"
           :class="{ completed: todo.completed, editing: editing === todo }"
-          v-for="(todo, index) in filteredTodos"
-          :key="index"
+          v-for="todo in filteredTodos"
+          :key="todo.id"
         >
           <div class="view">
             <input
               class="toggle"
               type="checkbox"
               name="complete"
-              :id="index"
+              :id="todo.id"
               @input.stop="toggleTodo(todo)"
             />
-            <label :for="index" @dblclick="changeTodo(todo)">{{
+            <label :for="todo.id" @dblclick="changeTodo(todo)">{{
               todo.name
             }}</label>
             <button
@@ -49,7 +49,8 @@
             @click="editingTodo(todo)"
             :value="todo.name"
             @keyup.esc="cancelEdit"
-            @keyup.enter="doneEdit"
+            @input.stop="handleTodo"
+            @keyup.enter="doneEdit(todo)"
             @blur="cancelEdit"
             v-focus="editing === todo"
           />
@@ -132,6 +133,7 @@ export default {
       "removeTodo",
       "deleteCompleted",
       "toggleTodo",
+      "editTodo",
     ]) /* On aurai pus aussi l'appeler sous forme d'object ...Vuex.mapActions({addNewTodo:"addTodo"}) puis dans notre composant créer une autre fonction qui sera "addTodo" et qui va maintenant appeler "addNewTodo" et vider this.newTodo*/,
     addNewTodo() {
       this.addTodo(this.newTodo);
@@ -148,8 +150,18 @@ export default {
         this.doneEdit();
       }
     },
-    doneEdit() {
+    doneEdit(todo = null) {
       this.editing = null;
+      if (todo) {
+        console.log(this.editTodoItem);
+        const newTodo = { ...todo, name: this.editTodoItem };
+        this.editTodo(newTodo);
+      }
+    },
+
+    handleTodo(e) {
+      const value = e.target.value;
+      this.editTodoItem = value;
     },
     editingTodo(todo) {
       this.editTodoItem = todo.name;
