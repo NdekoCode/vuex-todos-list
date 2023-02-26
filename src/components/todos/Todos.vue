@@ -33,7 +33,7 @@
               type="checkbox"
               name="complete"
               :id="index"
-              v-model="todo.completed"
+              @input.stop="toggleTodo(todo)"
             />
             <label :for="index" @dblclick="editTodo(todo)">{{
               todo.name
@@ -128,6 +128,8 @@ export default {
     ...Vuex.mapActions([
       "addTodo",
       "removeTodo",
+      "deleteCompleted",
+      "toggleTodo",
     ]) /* On aurai pus aussi l'appeler sous forme d'object ...Vuex.mapActions({addNewTodo:"addTodo"}) puis dans notre composant créer une autre fonction qui sera "addTodo" et qui va maintenant appeler "addNewTodo" et vider this.newTodo*/,
     addNewTodo() {
       this.addTodo(this.newTodo);
@@ -146,9 +148,6 @@ export default {
     },
     doneEdit() {
       this.editing = null;
-    },
-    deleteCompleted() {
-      this.todos = this.todos.filter((d) => !d.completed);
     },
   },
   computed: {

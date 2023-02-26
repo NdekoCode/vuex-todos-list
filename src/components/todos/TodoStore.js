@@ -28,6 +28,13 @@ const actions = {
   removeTodo: (store, todo) => {
     store.commit("DELETE_TODO", todo);
   },
+  deleteCompleted: (store) => {
+    store.commit("DELETE_COMPLETED");
+  },
+  toggleTodo: (store, todo) => {
+    console.log(todo.name);
+    store.commit("TOGGLE_TODO", todo);
+  },
 };
 
 /** Lorsque l'on est dans un composant on ne faira jamais appel directement au state mais on utilisera les getters pour obtenir ces informations*/
@@ -45,6 +52,17 @@ const mutations = {
   },
   DELETE_TODO: (state, todo) => {
     state.todos = state.todos.filter((d) => d.name !== todo.name);
+  },
+  DELETE_COMPLETED: (state) => {
+    state.todos = state.todos.filter((d) => !d.completed);
+  },
+  TOGGLE_TODO: (state, todo) => {
+    state.todos = state.todos.map((d) => {
+      if (d.name === todo.name) {
+        d.completed = !d.completed;
+      }
+      return d;
+    });
   },
 };
 
