@@ -104,5 +104,7 @@ const store = new Vuex.Store({
   //   Nous empeche de muter les choses et donc on faira des modifications uniquement sur les copies du state sans toucher au vrais state
   strict: true,
 });
+
+//  On ajout le store dans la variable globale pour pouvoir le visualiser dans l'inspecteur
 global.store = store;
 export default store;

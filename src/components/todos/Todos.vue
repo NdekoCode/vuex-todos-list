@@ -148,7 +148,6 @@ export default {
     cancelEdit() {
       if (this.editing !== null) {
         this.editing.name = this.oldTodo;
-
         this.doneEdit();
       }
     },
