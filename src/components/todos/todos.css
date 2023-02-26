@@ -1,0 +1,6 @@
+.bounce-enter-active {
+  animation: bounce-in 0.3s;
+}
+.bounce-leave-active {
+  animation: bounce-out 0.3s;
+}
