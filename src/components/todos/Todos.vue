@@ -35,7 +35,7 @@
               :id="index"
               @input.stop="toggleTodo(todo)"
             />
-            <label :for="index" @dblclick="editTodo(todo)">{{
+            <label :for="index" @dblclick="changeTodo(todo)">{{
               todo.name
             }}</label>
             <button
@@ -46,7 +46,8 @@
           <input
             type="text"
             class="edit"
-            v-model="todo.name"
+            @click="editingTodo(todo)"
+            :value="todo.name"
             @keyup.esc="cancelEdit"
             @keyup.enter="doneEdit"
             @blur="cancelEdit"
@@ -109,6 +110,7 @@ export default {
       oldTodo: null,
       editing: null,
       newTodo: "",
+      editTodoItem: "",
       filter: "all", // Done, todo,all
     };
   },
@@ -135,7 +137,7 @@ export default {
       this.addTodo(this.newTodo);
       this.newTodo = "";
     },
-    editTodo(todo) {
+    changeTodo(todo) {
       this.editing = todo;
       this.oldTodo = todo.name;
     },
@@ -148,6 +150,9 @@ export default {
     },
     doneEdit() {
       this.editing = null;
+    },
+    editingTodo(todo) {
+      this.editTodoItem = todo.name;
     },
   },
   computed: {
