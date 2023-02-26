@@ -44,6 +44,9 @@ const actions = {
       alert("Entrer une tache correcte");
     }
   },
+  completedAllTodo: (store, value) => {
+    store.commit("COMPLETE_ALL_TODO", value);
+  },
 };
 
 /** Lorsque l'on est dans un composant on ne faira jamais appel directement au state mais on utilisera les getters pour obtenir ces informations*/
@@ -83,6 +86,12 @@ const mutations = {
         d.name = todo.name;
       }
       return d;
+    });
+  },
+  COMPLETE_ALL_TODO: (state, value) => {
+    state.todos = state.todos.map((todo) => {
+      todo.completed = Boolean(value);
+      return todo;
     });
   },
 };

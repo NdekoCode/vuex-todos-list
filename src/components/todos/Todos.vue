@@ -32,6 +32,7 @@
               class="toggle"
               type="checkbox"
               name="complete"
+              :checked="todo.completed"
               :id="todo.id"
               @input.stop="toggleTodo(todo)"
             />
@@ -134,6 +135,7 @@ export default {
       "deleteCompleted",
       "toggleTodo",
       "editTodo",
+      "completedAllTodo",
     ]) /* On aurai pus aussi l'appeler sous forme d'object ...Vuex.mapActions({addNewTodo:"addTodo"}) puis dans notre composant créer une autre fonction qui sera "addTodo" et qui va maintenant appeler "addNewTodo" et vider this.newTodo*/,
     addNewTodo() {
       this.addTodo(this.newTodo);
@@ -180,10 +182,7 @@ export default {
     },
     allDone: {
       set(value) {
-        this.todos = this.todos.map((todo) => {
-          todo.completed = Boolean(value);
-          return todo;
-        });
+        this.completedAllTodo(value);
       },
       get() {
         return this.undone === 0;
