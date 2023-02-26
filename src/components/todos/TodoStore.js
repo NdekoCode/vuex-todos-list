@@ -15,7 +15,7 @@ const state = {
     },
   ],
 };
-/** Une action ça va etre une fonction qui va ensuite delencher une mutation */
+/** Une action ça va etre une fonction qui va ensuite delencher une mutation, les actions font les verification prealable, une fois que ces verification sont conforme alors il peut faire appel aux mutations */
 const actions = {
   addTodo: (store, name) => {
     if (name.length >= 2) {
@@ -24,6 +24,9 @@ const actions = {
     } else {
       alert("Entrer une tache correcte");
     }
+  },
+  removeTodo: (store, todo) => {
+    store.commit("DELETE_TODO", todo);
   },
 };
 
@@ -39,6 +42,9 @@ const getters = {
 const mutations = {
   ADD_TODO: (state, nameOfTodo) => {
     state.todos.push({ name: nameOfTodo, completed: false });
+  },
+  DELETE_TODO: (state, todo) => {
+    state.todos = state.todos.filter((d) => d.name !== todo.name);
   },
 };
 

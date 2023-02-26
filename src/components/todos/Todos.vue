@@ -127,6 +127,7 @@ export default {
   methods: {
     ...Vuex.mapActions([
       "addTodo",
+      "removeTodo",
     ]) /* On aurai pus aussi l'appeler sous forme d'object ...Vuex.mapActions({addNewTodo:"addTodo"}) puis dans notre composant créer une autre fonction qui sera "addTodo" et qui va maintenant appeler "addNewTodo" et vider this.newTodo*/,
     addNewTodo() {
       this.addTodo(this.newTodo);
@@ -145,9 +146,6 @@ export default {
     },
     doneEdit() {
       this.editing = null;
-    },
-    removeTodo(todo) {
-      this.todos = this.todos.filter((d) => d.name !== todo.name);
     },
     deleteCompleted() {
       this.todos = this.todos.filter((d) => !d.completed);
