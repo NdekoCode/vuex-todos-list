@@ -9,26 +9,11 @@
 <script>
 import Todos from "./components/todos/Todos.vue";
 
+import store from "./components/todos/TodoStore";
 export default {
   name: "App",
-  data() {
-    return {
-      todos: [
-        {
-          name: "Apprendre Typescript",
-          completed: true,
-        },
-      ],
-    };
-  },
-  methods: {
-    addTodo() {
-      this.todos.push({
-        name: "Apprendre NextJS",
-        completed: false,
-      });
-    },
-  },
+  store,
+  methods: {},
   components: {
     Todos,
   },

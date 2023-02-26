@@ -98,8 +98,36 @@
 
 <script>
 import Vue from "vue";
+import store from "./TodoStore";
 export default {
   name: "Todos",
+  store,
+  data() {
+    return {
+      oldTodo: null,
+      editing: null,
+      newTodo: "",
+      filter: "all", // Done, todo,all
+      todos: [
+        {
+          name: "Apprendre Typescript",
+          completed: true,
+        },
+      ],
+    };
+  },
+  directives: {
+    focus(el, value) {
+      if (value) {
+        Vue.nextTick(() => el.focus());
+      }
+    },
+  },
+  watcher: {
+    value(value) {
+      this.todos = value;
+    },
+  },
   methods: {
     editTodo(todo) {
       this.editing = todo;
@@ -158,27 +186,6 @@ export default {
         return this.todos.filter((todo) => !todo.completed);
       }
       return this.todos;
-    },
-  },
-  data() {
-    return {
-      oldTodo: null,
-      editing: null,
-      newTodo: "",
-      filter: "all", // Done, todo,all
-      todos: this.value,
-    };
-  },
-  directives: {
-    focus(el, value) {
-      if (value) {
-        Vue.nextTick(() => el.focus());
-      }
-    },
-  },
-  watcher: {
-    value(value) {
-      this.todos = value;
     },
   },
 };
